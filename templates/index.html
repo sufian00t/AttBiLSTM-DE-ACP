@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+
+{% block title %}Sequence Prediction{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="title text-center mb-4">AttBiLSTM-DE: Enhancing Anticancer Peptide Prediction with an Optimized Attention-Based BiLSTM Framework</h2>
+    
+    <div class="prediction-box mx-auto">
+        <h4 class="text-center">Paste input FASTA</h4>
+        <p class="text-center"><small>Only FASTA notation supported</small></p>
+        
+        <form method="POST" class="mt-3">
+            <div class="mb-3">
+                <textarea class="form-control" id="sequence" name="sequence" required rows="8"></textarea>
+            </div>
+            
+            <div class="text-center">
+                <button type="submit" class="btn btn-submit">Submit</button>
+                <button type="reset" class="btn btn-clear">Clear</button>
+                <button type="button" class="btn btn-insert-example" id="insertExample">Insert Example</button>
+            </div>
+        </form>
+    </div>
+
+    {% if result %}
+    <div class="results-container mt-5 mx-auto">
+        {% if result == "Sequence not found in database." %}
+            <div class="alert alert-danger text-center">{{ result }}</div>
+        {% else %}
+            <h4 class="text-center mb-3">Prediction Results:</h4>
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Sequence:</strong> {{ result.sequence }}</li>
+                        <li class="list-group-item"><strong>Prediction Score:</strong> {{ result.prediction_score }}</li>
+                        <li class="list-group-item"><strong>Classification:</strong> 
+                            <span class="badge rounded-pill bg-{% if result.classification == 'ACP' %}success{% else %}danger{% endif %}">
+                                {{ result.classification }}
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .title {
+        font-size: 24px;
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+    
+    .prediction-box {
+        background-color: #B0C4DE;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        max-width: 800px;
+    }
+    
+    textarea.form-control {
+        width: 100%;
+        resize: none;
+    }
+
+    /* Button Styling */
+    .btn {
+        margin: 10px;
+        padding: 12px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-submit {
+        background: linear-gradient(45deg, #28a745, #218838);
+        color: white;
+    }
+    .btn-submit:hover {
+        background: linear-gradient(45deg, #218838, #1e7e34);
+        transform: scale(1.05);
+    }
+
+    .btn-clear {
+        background: linear-gradient(45deg, #dc3545, #bd2130);
+        color: white;
+    }
+    .btn-clear:hover {
+        background: linear-gradient(45deg, #bd2130, #9c1c24);
+        transform: scale(1.05);
+    }
+
+    .btn-insert-example {
+        background: linear-gradient(45deg, #007bff, #0056b3);
+        color: white;
+    }
+    .btn-insert-example:hover {
+        background: linear-gradient(45deg, #0056b3, #004494);
+        transform: scale(1.05);
+    }
+    
+    .results-container {
+        max-width: 800px;
+    }
+    
+    @media (max-width: 768px) {
+        .prediction-box {
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+        }
+    }
+</style>
+
+<script>
+    document.getElementById("insertExample").addEventListener("click", function() {
+        document.getElementById("sequence").value = `>Positive_Train_ACP_DL_ACP740_1
+GLWSKIKEVGKEAAKAAAKAAGKAALGAVSEAV
+>Positive_Train_ACP_DL_ACP740_3
+GLLDIVKKVVGAFGSL
+>Positive_Train_ACP_DL_ACP740_4
+GLFDIVKKVVGALGSL
+>Positive_Train_ACP_DL_ACP740_5
+GLFDIVKKVVGTLAGL
+>Positive_Train_ACP_DL_ACP740_6
+GLFDIAKKVIGVIGSL
+>Positive_Train_ACP_DL_ACP740_7
+GLFDIVKKIAGHIAGSI
+>Positive_Train_ACP_DL_ACP740_10
+HGVSGHGQHGVHG
+>Negative_Train_ACP_MLC_ACP_Mixed80_53
+GILDTFKGVAKGVAKDLAVHMLENLKCKMTGC
+>Negative_Train_AntiCP2.0_Alter_504
+GAKQDIQLINTNGSWHINRTALNCNASLDTGWRNLGKVIDTLT
+>Negative_Train_ACP_MLC_ACP_Mixed80_164
+NFLGTLINLAKKIM
+>Negative_Train_AntiCP2.0_Alter_232
+GIICDRCNVEVTHFKVRRERMGHIELAAPVAHIWYYKYIPSRIGLLL
+>Negative_Train_AntiCP2.0_Alter_649
+LIINTETGKKLSKR
+>Negative_Train_AntiCP2.0_Main_409
+ANCSCSTASDYCPILTFCTTGTACSYTPTGCGTGWVYCACNGNFY
+>Negative_Train_AntiCP2.0_Alter_134
+DLERAALYAE
+>Negative_Train_AntiCP2.0_Alter_574
+VKDTFFKLLKHPTIASKHYLYDQYDQQ
+>Negative_Train_AntiCP2.0_Main_194
+GLWKSLLKNVGKAAGKAALNAVTDMVNQS
+>Negative_Train_CpACpP_591
+RRKEDRIRKDRSPTPEDVIESRDAEWQERLRLKMER
+>Negative_Train_ACP_DL_ACP740_164
+RANALIKRGTMCMQQQQPMLSTQ
+>Negative_Train_ACP_DL_ACP740_57
+RGIRGSSAARPSGRRRDPAGRTTETGFNIFTQHD
+>Negative_Train_CpACpP_156
+ESDQLSICRQDPAAYKNGFTVGEAIHVLLPNVGTMERKLS
+>Positive_Test_ACP_DL_ACP240_95
+DSHAKRHHGYKRKFHEKHHSHRGYRSNYLYDN
+>Positive_Test_MLACP2_1
+GLMDTVKNVAKNLAGHMLDKLKCKITGC
+>Positive_Test_MLACP2_3
+GLFSVVTGVLKAVGKNVAKNVGGSLLEQLKCKKISGGC
+>Positive_Test_MLACP2_12
+FIQHLIPLIPHAIQGIKDIF
+>Positive_Test_MLACP2_13
+FIGTLIPLALGALTKLFK
+>Positive_Test_MLACP2_14
+SIFSLFKMGAKALGKTLLKQAGKAGAEYAACKATNQC
+>Positive_Test_MLACP2_15
+GIACGESCVWIPCISSAIGCSCVKSKCYRN
+>Positive_Test_MLACP2_16
+KLCGETCFKFKCYTPGCSCSCSYPFCK
+>Positive_Test_MLACP2_17
+AEINMPNY
+>Negative_Test_mACPpred_127
+PTLWLSMIPVLNVP
+>Negative_Test_mACPpred_129
+AGSLAGNLQELSARYLSSSAFE
+>Negative_Test_mACPpred_133
+NYLKTSGEY
+>Negative_Test_mACPpred_136
+MMYYGSVFLTVKKYDEILKNVPSCTSRDY
+>Negative_Test_mACPpred_137
+KWDDKGLAVAIAQNVDTGAVLMQGFV
+>Negative_Test_mACPpred_142
+NECVIGGELLANIRIQSAQLKGIRIP
+>Negative_Test_mACPpred_145
+SGLVIPDTAKEKPQEGTVVAVGPGRWDDDGAKRIPLDVSEGDTVI
+>Negative_Test_mACPpred_152
+LVHHVAEKNTQDKVFIAASY`;
+    });
+</script>
+{% endblock %}

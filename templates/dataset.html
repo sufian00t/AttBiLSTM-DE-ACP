@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}Dataset | AttBiLSTM-DE-ACP{% endblock %}
+
+{% block content %}
+<main class="content-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h2 class="text-center mb-4">Download the Dataset</h2>
+                
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h4 class="mb-3"><i class="fas fa-database me-2"></i>Training Dataset</h4>
+                        <p class="mb-3">Comprehensive dataset used for model training and validation</p>
+                        <a href="{{ url_for('static', filename='datasets/Training Dataset.zip') }}" 
+                           class="btn btn-download" 
+                           download>
+                           <i class="fas fa-download me-2"></i>Download Training Dataset
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h4 class="mb-3"><i class="fas fa-database me-2"></i>Independent Dataset</h4>
+                        <p class="mb-3">External validation dataset for testing model performance</p>
+                        <a href="{{ url_for('static', filename='datasets/Independent Dataset.zip') }}" 
+                           class="btn btn-download" 
+                           download>
+                           <i class="fas fa-download me-2"></i>Download Independent Dataset
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .btn-download {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-weight: 500;
+        border: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: inline-flex;
+        align-items: center;
+    }
+    
+    .btn-download:hover {
+        background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        text-decoration: none;
+    }
+    
+    .card {
+        border: none;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        transition: transform 0.3s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+    }
+    
+    h2 {
+        font-family: 'Merriweather', serif;
+        font-weight: 700;
+        color: var(--secondary-color);
+        position: relative;
+        padding-bottom: 15px;
+    }
+    
+    h2::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        border-radius: 2px;
+    }
+    
+    @media (max-width: 768px) {
+        .btn-download {
+            width: 100%;
+            justify-content: center;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+        }
+    }
+</style>
+{% endblock %}

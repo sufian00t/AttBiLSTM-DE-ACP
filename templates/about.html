@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}About - AttBiLSTM-DE-ACP{% endblock %}
+
+{% block content %}
+<main class="content-container">
+    <div class="container">
+        <h2 class="text-center mb-5">About AttBiLSTM-DE-ACP</h2>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="about-content bg-white p-4 p-md-5 rounded shadow-sm">
+                    <h3 class="mb-4" style="color: var(--primary-color);">Our Mission</h3>
+                    <p class="lead">
+                        The AttBiLSTM-DE-ACP web server is designed to provide researchers with an efficient tool for 
+                        accurate Anticancer Peptide prediction using advanced deep learning techniques.
+                    </p>
+                    
+                    <h3 class="mt-5 mb-4" style="color: var(--primary-color);">Key Features</h3>
+                    <ul class="features-list">
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle me-2" style="color: var(--success-color);"></i>
+                            Utilizes Attention-based Bidirectional LSTM architecture
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle me-2" style="color: var(--success-color);"></i>
+                            Incorporates differential evolution for optimized performance
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle me-2" style="color: var(--success-color);"></i>
+                            Provides fast and accurate predictions
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle me-2" style="color: var(--success-color);"></i>
+                            User-friendly web interface
+                        </li>
+                    </ul>
+                    
+                    <h3 class="mt-5 mb-4" style="color: var(--primary-color);">Development Team</h3>
+                    <p>
+                        The AttBiLSTM-DE-ACP web server was developed by researchers dedicated to advancing 
+                        computational methods in peptide analysis and cancer research.
+                    </p>
+                    
+                    <div class="mt-5">
+                        <a href="/algorithm" class="btn btn-primary me-3">
+                            <i class="fas fa-code me-1"></i> View Algorithm
+                        </a>
+                        <a href="/dataset" class="btn btn-outline-primary">
+                            <i class="fas fa-database me-1"></i> Explore Dataset
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<style>
+    .about-content {
+        border-left: 4px solid var(--accent-color);
+    }
+    
+    .features-list {
+        list-style: none;
+        padding-left: 0;
+    }
+    
+    h2 {
+        font-family: 'Merriweather', serif;
+        font-weight: 700;
+        color: var(--secondary-color);
+        position: relative;
+        padding-bottom: 15px;
+    }
+    
+    h2::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        border-radius: 2px;
+    }
+    
+    .lead {
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+    
+    @media (max-width: 768px) {
+        .about-content {
+            padding: 2rem !important;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+        }
+    }
+</style>
+{% endblock %}
